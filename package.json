@@ -1,8 +1,6 @@
 {
   "name": "gralat-translator",
   "version": "1.0.0",
-  "main": "api/traduci.js",
-  "dependencies": {
-    "node-fetch": "^3.3.0"
-  }
+  "type": "module",
+  "dependencies": {}
 }
