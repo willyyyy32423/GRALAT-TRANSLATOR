@@ -1,54 +1,32 @@
 export default async function handler(req, res) {
-    // Gestione CORS per evitare blocchi del browser
-    res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-
-    if (req.method !== 'POST') {
-        return res.status(405).json({ errore: 'Metodo non consentito' });
-    }
+    if (req.method === 'OPTIONS') return res.status(200).end();
+    if (req.method !== 'POST') return res.status(405).json({ errore: 'Usa POST' });
 
     const { testo, linguaOrigine, linguaDestinazione } = req.body;
-
-    if (!testo) {
-        return res.status(400).json({ errore: 'Testo mancante' });
-    }
-
     const API_KEY = process.env.GEMINI_API_KEY;
 
-    const linguaNome = (linguaOrigine === 'it' ? linguaDestinazione : linguaOrigine) === 'la' ? 'Latino' : 'Greco Antico';
-    const direzione = linguaOrigine === 'it' ? `dall'Italiano al ${linguaNome}` : `dal ${linguaNome} all'Italiano`;
+    if (!API_KEY) return res.status(500).json({ errore: 'Manca la chiave API su Vercel' });
 
-    const promptDiSistema = `Sei un professore di filologia classica. Traduci ${direzione}: "${testo}". Restituisci SOLO la traduzione.`;
+    const prompt = `Traduci in modo elegante dal${linguaOrigine === 'it' ? 'l\'Italiano al ' + (linguaDestinazione === 'la' ? 'Latino' : 'Greco Antico') : (linguaOrigine === 'la' ? 'Latino' : 'Greco Antico') + ' all\'Italiano'}: "${testo}". Solo traduzione, niente commenti.`;
 
     try {
-        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
-        
-        const rispostaAi = await fetch(url, {
+        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: promptDiSistema }] }]
-            })
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
 
-        const datiAi = await rispostaAi.json();
-
-        if (datiAi.candidates && datiAi.candidates[0].content) {
-            const traduzione = datiAi.candidates[0].content.parts[0].text;
-            return res.status(200).json({ traduzione: traduzione.trim() });
-        } else {
-            // Se Gemini risponde con errore (es. chiave non valida) lo vedremo nei log
-            console.error("Errore Gemini:", datiAi);
-            return res.status(500).json({ errore: 'L\'IA ha rifiutato la richiesta' });
-        }
-
-    } catch (error) {
-        return res.status(500).json({ errore: error.message });
+        const data = await response.json();
+        if (data.error) return res.status(500).json({ errore: data.error.message });
+        
+        const traduzione = data.candidates[0].content.parts[0].text;
+        return res.status(200).json({ traduzione: traduzione.trim() });
+    } catch (err) {
+        return res.status(500).json({ errore: 'Errore di connessione' });
     }
 }
