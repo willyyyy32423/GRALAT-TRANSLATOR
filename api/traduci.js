@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     const promptDiSistema = `Sei un professore di filologia classica. Traduci ${direzione}: "${testo}". Restituisci SOLO la traduzione.`;
 
     try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
         
         const rispostaAi = await fetch(url, {
             method: 'POST',
