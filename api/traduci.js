@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     try {
         const { testo, linguaOrigine, linguaDestinazione } = req.body;
-        const API_KEY = "AIzaSyBew8ibyTclpJNvnWPZbhsZJmibGYtpiQQ";
+        const API_KEY = "";
 
         if (!API_KEY) {
             return res.status(500).json({ errore: "Manca GEMINI_API_KEY su Vercel" });
