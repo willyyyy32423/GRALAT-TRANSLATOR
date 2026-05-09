@@ -1,0 +1,266 @@
+/* style.css - Gralat Minimal ed Elegante */
+
+:root {
+    --bg-body: #F9F8F6;
+    --bg-container: #FFFFFF;
+    --text-main: #2C2C2C;
+    --text-muted: #7A7A7A;
+    --accent: #B28F4A;
+    --border-color: #EAE3D9;
+    --bg-textarea: #FCFAFB;
+    --border-textarea: #DCD5CB;
+    --btn-bg: #2C2C2C;
+    --btn-text: #FFFFFF;
+    --btn-hover-bg: #B28F4A;
+    --btn-hover-text: #FFFFFF;
+    --bg-output: #F9F8F6;
+    --shadow: rgba(0, 0, 0, 0.05);
+    --pattern-color: #E8E5DF;
+    --history-bg: #F0EDE6;
+}
+
+[data-theme="dark"] {
+    --bg-body: #121212;
+    --bg-container: #1A1A1A;
+    --text-main: #E0E0E0;
+    --text-muted: #888888;
+    --accent: #D4AF37;
+    --border-color: #333333;
+    --bg-textarea: #121212;
+    --border-textarea: #444444;
+    --btn-bg: transparent;
+    --btn-text: #D4AF37;
+    --btn-hover-bg: #D4AF37;
+    --btn-hover-text: #121212;
+    --bg-output: #121212;
+    --shadow: rgba(0, 0, 0, 0.8);
+    --pattern-color: #2A2A2A;
+    --history-bg: #222222;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    font-family: 'Lora', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 0;
+    background-image: radial-gradient(var(--pattern-color) 1px, transparent 1px);
+    background-size: 20px 20px;
+    transition: all 0.4s ease;
+}
+
+.container {
+    background-color: var(--bg-container);
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px var(--shadow);
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover { transform: scale(1.2) rotate(15deg); }
+
+h1 {
+    font-family: 'Cinzel', serif;
+    color: var(--accent);
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+p.subtitle {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 15px;
+    font-family: 'Lora', serif;
+    font-size: 1.1em;
+    color: var(--text-main);
+    border: 1px solid var(--border-textarea);
+    border-radius: 8px;
+    background-color: var(--bg-textarea);
+    resize: none;
+    box-sizing: border-box;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 12px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+}
+
+.output-container {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.output-box {
+    width: 100%;
+    padding: 20px;
+    border-left: 4px solid var(--accent);
+    background-color: var(--bg-output);
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    color: var(--text-main);
+    border-radius: 0 8px 8px 0;
+    word-break: break-word;
+    box-sizing: border-box;
+}
+
+.placeholder-text { color: var(--text-muted); font-style: italic; }
+
+/* Bottoni Minimal con Icone (Copia, Ascolta, Condividi) */
+.extra-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.icon-btn {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    font-family: 'Lora', serif;
+    font-size: 0.9em;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 30px; /* Forma a pillola molto elegante */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.icon-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.icon-btn:hover { 
+    color: var(--accent); 
+    border-color: var(--accent);
+    background-color: var(--bg-textarea);
+}
+
+/* Cronologia */
+.history-container {
+    margin-top: 30px;
+    text-align: left;
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+}
+
+.history-container h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1em;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.history-item {
+    background-color: var(--history-bg);
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    border-left: 2px solid var(--accent);
+}
+
+.history-item strong { color: var(--accent); }
+
+.disclaimer {
+    margin-top: 25px;
+    font-size: 0.8em;
+    color: var(--text-muted);
+    font-style: italic;
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+}
+
+@media (max-width: 600px) {
+    .container { padding: 40px 20px 25px 20px; width: 95%; }
+    h1 { font-size: 2em; }
+    .buttons { flex-direction: column; gap: 10px; }
+    .action-btn { width: 100%; }
+    .icon-btn { flex: 1; justify-content: center; } /* Si adattano perfettamente su smartphone */
+}
+/* Aggiungi questo in fondo al tuo file style.css */
+.direction-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.direction-toggle {
+    font-weight: 600;
+    padding: 10px 20px;
+    background-color: var(--bg-textarea);
+}
+
+.direction-toggle svg {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
